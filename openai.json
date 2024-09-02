@@ -1,0 +1,2221 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "School Management  Server",
+    "description": "This server functions as a school management system, catering to users such as teachers, administrators, and students. Prior to accessing the application, administrators must first register teachers and students within the server. Administrators possess the capability to create, modify, and remove student and teacher profiles, along with managing academic year details, academic terms, programs, subjects, and class levels. Teachers are empowered to generate exams and compose questions for these exams, while students are able to participate in exams. Additionally, administrators hold the authority to publish or unpublish exam results."
+  },
+  "servers": [
+   
+    {
+      "url": "https://school-management-system-api.onrender.com/api/v1"
+    },
+     {
+      "url": "http://localhost:5000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "admins",
+      "description": "admin login, update, publish results"
+    },
+    {
+      "name": "academic-years",
+      "description": "create, get, update, delete academic-years"
+    },
+    {
+      "name": "academic-terms",
+      "description": "create, get, update, delete academic-terms"
+    },
+    {
+      "name": "programs",
+      "description": "create, get, update, delete programs"
+    },
+    {
+      "name": "class-levels",
+      "description": "create, get, update, delete class-levels"
+    },
+    {
+      "name": "subjects",
+      "description": "create, get, update, delete subjects"
+    },
+    {
+      "name": "teachers",
+      "description": "create, get, update, delete teachers"
+    },
+    {
+      "name": "students",
+      "description": "create, get, update, delete students"
+    },
+    {
+      "name": "exams",
+      "description": "create, get, update, delete exams"
+    },
+    {
+      "name": "questions",
+      "description": "create, get, update, delete questions"
+    },
+     {
+      "name": "exam-results",
+      "description": "Admin publish/unpublish result. Students can see the results"
+    }
+  ],
+  "paths": {
+    "/admins/register": {
+      "post": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "Create a new admin user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admins/login": {
+      "post": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "admin login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admins/": {
+      "get": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "get all admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "update admin profile",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/admins/profile": {
+      "get": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "get admin profile",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/academic-years/": {
+      "post": {
+        "tags": [
+          "academic-years"
+        ],
+        "summary": "Create academic years",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "fromYear": {
+                    "type": "string"
+                  },
+                  "toYear": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "fromYear",
+                  "toYear"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "get": {
+        "tags": [
+          "academic-years"
+        ],
+        "summary": "Get all academic years",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/academic-years/{academic-year ID}": {
+      "get": {
+        "tags": [
+          "academic-years"
+        ],
+        "summary": "Get academic term",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "academic-year ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "academic-years"
+        ],
+        "summary": "Update academic year",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "fromYear": {
+                    "type": "string"
+                  },
+                  "toYear": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "academic-year ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "academic-years"
+        ],
+        "summary": "delete academic year",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "academic-year ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/academic-terms/": {
+      "post": {
+        "tags": [
+          "academic-terms"
+        ],
+        "summary": "Create academic years",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "get": {
+        "tags": [
+          "academic-terms"
+        ],
+        "summary": "Get all academic terms",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/academic-terms/{academic-term ID}": {
+      "get": {
+        "tags": [
+          "academic-terms"
+        ],
+        "summary": "Get academic term",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "academic-term ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "academic-terms"
+        ],
+        "summary": "Update academic term",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "academic-terms"
+        ],
+        "summary": "delete academic term",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "academic-term ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "authorization",
+          "description": "admin login token",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "academic-term ID",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/programs/": {
+      "post": {
+        "tags": [
+          "programs"
+        ],
+        "summary": "Create programs",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "get": {
+        "tags": [
+          "programs"
+        ],
+        "summary": "Get all programs",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/programs/{program ID}": {
+      "get": {
+        "tags": [
+          "programs"
+        ],
+        "summary": "Get programs",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "program ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "programs"
+        ],
+        "summary": "Update program",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "programs"
+        ],
+        "summary": "delete program",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "program ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "authorization",
+          "description": "admin login token",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "program ID",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/class-levels/": {
+      "post": {
+        "tags": [
+          "class-levels"
+        ],
+        "summary": "Create class levels",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "get": {
+        "tags": [
+          "class-levels"
+        ],
+        "summary": "Get all class levels",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/class-levels/{class-level ID}": {
+      "get": {
+        "tags": [
+          "class-levels"
+        ],
+        "summary": "Get class levels",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "class-level ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "class-levels"
+        ],
+        "summary": "Update class-levels",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "class-levels"
+        ],
+        "summary": "delete class-levels",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "class-level ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "authorization",
+          "description": "admin login token",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "class-level ID",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/subjects/{program ID}": {
+      "post": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "Create subjects",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "program ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "academicTerm": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "academicTerm"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/subjects/": {
+      "get": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "Get all subjects",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/subjects/{subject ID}": {
+      "get": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "Get subject",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "Update subject",
+        "requestBody": {
+          "description": "provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "delete subject",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "authorization",
+          "description": "admin login token",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "subject ID",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/teachers/admin/register": {
+      "post": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Admin create teacher credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/teachers/login": {
+      "post": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Teacher Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/teachers/admin": {
+      "get": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Get all teachers by admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/teachers/profile": {
+      "get": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Teacher can see his/her profile",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/teachers/{teacher ID}/update": {
+      "put": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Teacher update his/her credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "teacher ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/teachers/{teacher ID}/update/admin": {
+      "put": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Admin update teacher credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "teacher ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/students/admin/register": {
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Admin create student credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/students/login": {
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Student Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/students/admin": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Get all students by admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/students/profile": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Student can see his/her profile",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Student login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/students/{student ID}/update": {
+      "put": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Student update his/her credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "student login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "student ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/students/{student ID}/update/admin": {
+      "put": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Admin update student credentials",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "student ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/students/exam/{exam ID}/write": {
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Student can write exam with exam ID",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exam ID",
+            "in": "path",
+            "description": "fetch all question with exam ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answers": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "answers"
+                ]
+              },
+              "example": {
+                "answers": "['optionA', 'optionB']"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/exams": {
+      "post": {
+        "tags": [
+          "exams"
+        ],
+        "summary": "Teacher create exam",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "program": {
+                    "type": "string"
+                  },
+                  "academicTerm": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "string"
+                  },
+                  "examDate": {
+                    "type": "string"
+                  },
+                  "examTime": {
+                    "type": "string"
+                  },
+                  "examType": {
+                    "type": "string"
+                  },
+                  "academicYear": {
+                    "type": "string"
+                  },
+                  "classLevel": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "subject",
+                  "program",
+                  "academicTerm",
+                  "duration",
+                  "examDate",
+                  "examTime",
+                  "createdBy",
+                  ""
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "get": {
+        "tags": [
+          "exams"
+        ],
+        "summary": "Teacher get exams",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/exams/{exam ID}": {
+      "post": {
+        "tags": [
+          "exams"
+        ],
+        "summary": "Teacher update exam",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "program": {
+                    "type": "string"
+                  },
+                  "academicTerm": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "string"
+                  },
+                  "examDate": {
+                    "type": "string"
+                  },
+                  "examTime": {
+                    "type": "string"
+                  },
+                  "examType": {
+                    "type": "string"
+                  },
+                  "academicYear": {
+                    "type": "string"
+                  },
+                  "classLevel": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "exams"
+        ],
+        "summary": "Teacher get exam",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/questions": {
+      "get": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Teacher get all questions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/questions/{question ID}": {
+      "get": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Teacher get question",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "question ID",
+            "in": "path",
+            "description": "ID of question that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Teacher update questions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "question ID",
+            "in": "path",
+            "description": "ID of question that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Provide the field you want to update in the request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string"
+                  },
+                  "optionA": {
+                    "type": "string"
+                  },
+                  "optionB": {
+                    "type": "string"
+                  },
+                  "optionC": {
+                    "type": "string"
+                  },
+                  "optionD": {
+                    "type": "string"
+                  },
+                  "correctAnswer": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/questions/{exam ID}": {
+      "post": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Teacher create questions for exam ID you provided in path",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "teacher login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exam ID",
+            "in": "path",
+            "description": "fetch all question with exam ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string"
+                  },
+                  "optionA": {
+                    "type": "string"
+                  },
+                  "optionB": {
+                    "type": "string"
+                  },
+                  "optionC": {
+                    "type": "string"
+                  },
+                  "optionD": {
+                    "type": "string"
+                  },
+                  "correctAnswer": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "optionA",
+                  "optionB",
+                  "optionC",
+                  "optionD",
+                  "correctAnswer"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/exam-results": {
+      "get": {
+        "tags": [
+          "exam-results"
+        ],
+        "summary": "Student get all the published results",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "student login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/exam-results/{exam ID}/checking": {
+      "get": {
+        "tags": [
+          "exam-results"
+        ],
+        "summary": "Student can see the result based on exam ID",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "student login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exam ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/exam-results/{exam ID}/admin-publish": {
+      "put": {
+        "tags": [
+          "exam-results"
+        ],
+        "summary": "Admin publish/unpublish results",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "admin login token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exam ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+         "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "isPublished": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "isPublished"
+                ]
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    }
+
+  },
+  "components": {
+    "schemas": {
+      "admin": {
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "default": "admin"
+          },
+        
+          "academicTerms": {
+            "type": "array",
+            "$ref": "#/components/schemas/academicTerms"
+          },
+          "academicYears": {
+            "$ref": "#/components/schemas/academicYears"
+          },
+          "programs": {
+            "$ref": "#/components/schemas/programs"
+          },
+          "classLevels": {
+            "$ref": "#/components/schemas/classLevels"
+          },
+          "teachers": {
+            "$ref": "#/components/schemas/teachers"
+          },
+          "students": {
+            "$ref": "#/components/schemas/students"
+          }
+        }
+      },
+      "teachers": {
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "string"
+          },
+          "dateEmployed": {
+            "type": "date"
+          },
+          "role": {
+            "type": "string",
+            "default": "teacher"
+          },
+          "examCreated": {
+            "type": "array",
+            "$ref": "#/components/schemas/exams"
+          }
+        }
+      },
+      "students": {
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "default": "student"
+          },
+          "classlevels": {
+            "type": "array"
+          },
+          "currentClassLevel": {
+            "type": "string"
+          },
+          "dateAdmitted": {
+            "type": "string",
+            "default": "student"
+          },
+          "examResults": {
+            "type": "array"
+          },
+          "isGraduated": {
+            "type": "boolean",
+            "default": false
+          },
+          "yearGraduated": {
+            "type": "string"
+          }
+        }
+      },
+      "academicTerms": {
+        "required": [
+          "name",
+          "description",
+          "duration"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          }
+        }
+      },
+      "academicYears": {
+        "required": [
+          "name",
+          "fromYear",
+          "toYear"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "fromYear": {
+            "type": "string"
+          },
+          "toYear": {
+            "type": "string"
+          }
+        }
+      },
+      "classLevels": {
+        "required": [
+          "name",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "programs": {
+        "required": [
+          "name",
+          "description",
+          "duration"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "exams": {
+        "required": [
+          "name",
+          "description",
+          "subject",
+          "program",
+          "examTime",
+          "examType",
+          "academicTerm",
+          "duration",
+          "academicYear",
+          "classLevel "
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "academicTerm": {
+            "type": "string"
+          },
+          "academicYear": {
+            "type": "string"
+          },
+          "classLevel": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "examTime": {
+            "type": "string"
+          },
+          "examType": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "program": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "$ref": "#/components/schemas/questions"
+          }
+        }
+      },
+      "questions": {
+        "required": [
+          "question",
+          "optionA",
+          "optionB",
+          "optionC",
+          "optionD",
+          "correctAnswer"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "optionA": {
+            "type": "string"
+          },
+          "optionB": {
+            "type": "string"
+          },
+          "optionC": {
+            "type": "string"
+          },
+          "optionD": {
+            "type": "string"
+          },
+          "correctAnswer": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "string"
+          }
+        }
+      },
+        "examResults": {
+        "required": [
+          "studentID",
+          "exam",
+          "grade",
+          "score"
+
+        ],
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string"
+          },
+          "exam": {
+           "type": "array",
+            "$ref": "#/components/schemas/exams"
+          },
+          "grade": {
+            "type": "integer"
+          },
+          "score": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
